@@ -1,0 +1,19 @@
+services:
+  db:
+    image: postgres:18-alpine
+    container_name: eh-hana-postgres
+    restart: always
+    shm_size: 256mb
+    environment:
+      POSTGRES_USER: hana_admin
+      POSTGRES_PASSWORD: fsdgh987dsfglkomn234098erfdsvlokm132sdfl3124lkmsfd
+      POSTGRES_DB: ehhana_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./docker/postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hana_admin -d ehhana_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
