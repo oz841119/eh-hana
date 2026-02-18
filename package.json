@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "db": "docker-compose --file docker-compose-db.yml up -d"
+    "db": "docker-compose --file docker-compose-db.yml up -d",
+    "db:stop": "docker-compose --file docker-compose-db.yml down",
+    "start:server": "pnpm --filter @eh-hana/server start",
+    "migrate:server": "pnpm --filter @eh-hana/server dlx prisma migrate dev"
   },
   "keywords": [],
   "author": "",
