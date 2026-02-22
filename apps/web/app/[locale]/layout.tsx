@@ -4,6 +4,7 @@ import "../globals.css";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
+import { AuthStatus } from "@/components/AuthStatus";
 
 const jetbrainsMono = JetBrains_Mono({subsets:['latin'],variable:'--font-sans'});
 
@@ -39,6 +40,7 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NextIntlClientProvider>
+          <AuthStatus />
           {children}
         </NextIntlClientProvider>
       </body>

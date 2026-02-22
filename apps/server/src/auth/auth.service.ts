@@ -17,23 +17,21 @@ export class AuthService {
     private readonly userService: UserService,
   ) {}
 
-  /**
-   * 透過 Google OAuth 資料找到或建立使用者
-   */
-  async validateOAuthUser(profile: GoogleProfile) {
-    return this.userService.findOrCreate({
+  async googleLogin(profile: GoogleProfile) {
+    const name = [profile.firstName, profile.lastName]
+      .filter(Boolean)
+      .join(' ');
+
+    const user = await this.userService.findOrCreate({
       email: profile.email,
-      name: `${profile.firstName} ${profile.lastName}`,
+      name,
     });
+
+    const payload = { sub: user.id, email: user.email };
+    return { accessToken: this.jwtService.sign(payload) };
   }
 
-  /**
-   * 簽發 JWT token
-   */
-  async login(user: { id: number; email: string }) {
-    const payload = { sub: user.id, email: user.email };
-    return {
-      access_token: this.jwtService.sign(payload),
-    };
+  verifyToken(token: string): { sub: string; email: string } {
+    return this.jwtService.verify(token);
   }
 }
